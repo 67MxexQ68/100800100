@@ -47,9 +47,24 @@
       </div>
       <div class="mt-5 row">
         <h1 id="data" class="mt-5 d-flex justify-content-center">Calculator</h1>
-
         <p>here i want the calculator it's <strong>amount of btc someone buys</strong> * exchange [maker * taker * withdrawal fee] = amount left</p>
       </div>
+
+      <div>
+        <input type="text" id="amountOfCrypto" />
+        <select name="cryptoCurrencies" id="cryptoCurrency">
+          <option value="btc">btc</option>
+          <option value="eth">eth</option>
+          <option value="ltc">ltc</option>
+        </select>
+        <input type="button" onClick="calculateFees()" Value="Calculate" />
+        <h1 id="result" class="mt-5 d-flex justify-content-center">-</h1>
+      </div>
+
+      <div class="mt-5 row">
+        <div id="exchange-table-overview"></div>
+      </div>
+
       <div class="row">
         <h1 id="data" class="mt-5 d-flex justify-content-center">Data</h1>
         <div class="mt-5 col-lg col-sm">
