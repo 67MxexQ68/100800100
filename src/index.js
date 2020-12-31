@@ -1,6 +1,7 @@
 let exchangeFees
 
 new gridjs.Grid
+
 ({
   columns: ['Exchange', 'Maker %', 'Taker %', 'BTC fee', 'ETH fee', 'LTC fee',  'Link'],
   sort: true,
@@ -23,10 +24,21 @@ new gridjs.Grid
 }).render(document.getElementById("table-overview"));
 
 
+new gridjs.Grid
+
+({
+  server: {
+    url: 'https://api.bitvavo.com/v2/ticker/price',
+    then: data => data.map(henk => [
+      henk.price
+    ])
+  }
+}).render(document.getElementById("henkie"));
+
 function calculateFeesByExchange(exchangeFee) {
   const amountOfCrypto = document.getElementById("amountOfCrypto").value
   const cryptoCurrency = document.getElementById("cryptoCurrency").value
-  fee = amountOfCrypto * exchangeFee.maker * exchangeFee.maker * exchangeFee[cryptoCurrency]
+  fee = amountOfCrypto * (exchangeFee.taker / 100) + exchangeFee[cryptoCurrency]
   return {
     fee,
     remainingAmount: amountOfCrypto - fee
@@ -36,11 +48,17 @@ function calculateFeesByExchange(exchangeFee) {
 function calculateFees(exchange) {
   const fees = exchangeFees.map(exchangeFee => {
     const feesByExchange = calculateFeesByExchange(exchangeFee);
-    return [exchangeFee.name, feesByExchange.fee, feesByExchange.remainingAmount]
+    return [
+      exchangeFee.name,
+      feesByExchange.fee,
+      exchangeFee.btc * feesByExchange.fee,
+      feesByExchange.remainingAmount,
+      gridjs.html(`<a class="btn btn-secondary" href='${exchangeFee.affiliate}' target="_blank" rel="sponsored">Koop via ${exchangeFee.name}</a>`)]
   })
 
   const exchangeFeesGrid = new gridjs.Grid({
-    columns: ['Name', 'Fee', 'Received Amount'],
+    columns: ['Exchange', 'Kosten', 'Kosten in euro', 'Netto ontvang je', 'Koop'],
+    sort: true,
     data: fees
   });
   exchangeFeesGrid.render(document.getElementById("exchange-table-overview"));

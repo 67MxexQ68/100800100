@@ -1,8 +1,8 @@
 [
   {
     "name": "Binance",
-    "maker": 0.075,
-    "taker": 0.075,
+    "maker": 0.1,
+    "taker": 0.1,
     "btc": 0.0004,
     "eth": 0.003,
     "neo": 0,
@@ -84,7 +84,7 @@
     "affiliate": "https://www.coinex.com/register?refer_code=cqbkr"
   },
   {
-    "name": "Coinbase",
+    "name": "Coinbase Pro",
     "maker": 0.5,
     "taker": 0.5,
     "btc": "",
