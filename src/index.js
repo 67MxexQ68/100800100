@@ -1,6 +1,4 @@
 let exchangeFees
-let bitcoinPrice
-
 new gridjs.Grid
 
 ({
@@ -25,42 +23,60 @@ new gridjs.Grid
 }).render(document.getElementById("table-overview"));
 
 
-new gridjs.Grid
-
 function calculateFeesByExchange(exchangeFee) {
-  const amountOfCrypto = document.getElementById("amountOfCrypto").value
-  const cryptoCurrency = document.getElementById("cryptoCurrency").value
-  fee = amountOfCrypto * (exchangeFee.taker / 100) + exchangeFee[cryptoCurrency]
+  const amountOfCrypto = Number(document.getElementById("amountOfCrypto").value)
+  const selectedCrypto = document.getElementById("cryptoCurrency").value
+  fee = Number(amountOfCrypto * (exchangeFee.taker / 100) + exchangeFee[selectedCrypto])
   return {
     fee,
     remainingAmount: amountOfCrypto - fee
   }
 }
 
-function calculateFees(exchange) {
+async function calculateFees() {
+  const selectedCrypto = document.getElementById("cryptoCurrency").value
+  const currencyPrice = await getCryptoPriceInCurrency(selectedCrypto)
+
   const fees = exchangeFees.map(exchangeFee => {
     const feesByExchange = calculateFeesByExchange(exchangeFee);
     return [
       exchangeFee.name,
-      feesByExchange.fee,
-      exchangeFee.btc * bitcoinPrice,
+      feesByExchange.fee.toFixed(4),
+      (exchangeFee.btc * currencyPrice).toFixed(4),
       feesByExchange.remainingAmount,
       gridjs.html(`<a class="btn btn-secondary" href='${exchangeFee.affiliate}' target="_blank" rel="sponsored">Koop via ${exchangeFee.name}</a>`)]
   })
+
+  document.getElementById("exchange-table-overview").innerHTML = "";
 
   const exchangeFeesGrid = new gridjs.Grid({
     columns: ['Exchange', 'Kosten', 'Kosten in euro', 'Netto ontvang je', 'Koop'],
     sort: true,
     data: fees
   });
+
   exchangeFeesGrid.render(document.getElementById("exchange-table-overview"));
 }
 
 
-fetch('https://api.bitvavo.com/v2/ticker/price?market=BTC-EUR')
-  .then(response => response.json())
-  .then(data => {
-    // Data contains an object {market: xxx, price: xxx}
-      bitcoinPrice = Number(data.price)
-      document.getElementById("bitcoinPrice").innerHTML = bitcoinPrice
-  });
+function getCryptoPriceInCurrency(cryptoCurrency) {
+  const url = `https://api.bitvavo.com/v2/ticker/price?market=${cryptoCurrency.toUpperCase()}-EUR`;
+  return fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Data contains an object {market: xxx, price: xxx}
+        currencyPrice = Number(data.price)
+        return currencyPrice
+    });
+}
+
+/**
+ * Show the bitcoin price in euros
+ */
+// fetch('https://api.bitvavo.com/v2/ticker/price?market=BTC-EUR')
+//   .then(response => response.json())
+//   .then(data => {
+//     // Data contains an object {market: xxx, price: xxx}
+//       currencyPrice = Number(data.price)
+//       document.getElementById("currencyPrice").innerHTML = currencyPrice
+//   });
