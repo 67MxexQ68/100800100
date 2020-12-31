@@ -1,4 +1,5 @@
 let exchangeFees
+let bitcoinPrice
 
 new gridjs.Grid
 
@@ -26,15 +27,6 @@ new gridjs.Grid
 
 new gridjs.Grid
 
-({
-  server: {
-    url: 'https://api.bitvavo.com/v2/ticker/price',
-    then: data => data.map(henk => [
-      henk.price
-    ])
-  }
-}).render(document.getElementById("henkie"));
-
 function calculateFeesByExchange(exchangeFee) {
   const amountOfCrypto = document.getElementById("amountOfCrypto").value
   const cryptoCurrency = document.getElementById("cryptoCurrency").value
@@ -51,7 +43,7 @@ function calculateFees(exchange) {
     return [
       exchangeFee.name,
       feesByExchange.fee,
-      exchangeFee.btc * feesByExchange.fee,
+      exchangeFee.btc * bitcoinPrice,
       feesByExchange.remainingAmount,
       gridjs.html(`<a class="btn btn-secondary" href='${exchangeFee.affiliate}' target="_blank" rel="sponsored">Koop via ${exchangeFee.name}</a>`)]
   })
@@ -63,3 +55,12 @@ function calculateFees(exchange) {
   });
   exchangeFeesGrid.render(document.getElementById("exchange-table-overview"));
 }
+
+
+fetch('https://api.bitvavo.com/v2/ticker/price?market=BTC-EUR')
+  .then(response => response.json())
+  .then(data => {
+    // Data contains an object {market: xxx, price: xxx}
+      bitcoinPrice = Number(data.price)
+      document.getElementById("bitcoinPrice").innerHTML = bitcoinPrice
+  });
