@@ -7,200 +7,262 @@
     <link href="/theme/mermaid.css" rel="stylesheet"/>
     <link href="/theme/style.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap" rel="stylesheet">
-    <title>Nederlandstalige exchanges</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/tippy.js@6/animations/scale.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+        <script type="text/javascript">
+        $(document).on('click','#clickie',
+        function() {
+          $('tr').each(function () {
+            $(this).find('td').each(function () {
+              if ($(this).text().trim() == "FTX") {
+              $(this).closest("tr").remove();
+              };
+            });
+          });
+        });
+        </script>
+    <title>Bereken waar je het beste Bitcoin, Litecoin of Ethereum kunt kopen - CryptoCalculator.nl</title>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NZ5TP89');</script>
+    <!-- End Google Tag Manager -->
   </head>
   <body>
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-info fixed-top">
-      <div class="col-8 container-fluid">
-        <a class="navbar-brand text-white fs-1" href="#">🎱</a>
-        <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse fs-6 text-uppercase" id="navbarText">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-center">
-            <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="#">Overzicht</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#calculator">Calculator</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#faq">Veelgestelde vragen</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#data">Data</a>
-            </li>
-          </ul>
-          <!--<span class="navbar-text text-white">
-            Overzicht van de goedkoopste Nederlandstalige exchanges
-          </span>-->
-        </div>
-      </div>
-    </nav>
-
-    <div class="container">
-      <p>&nbsp;</p>
-      <h1 class="mt-5 d-flex justify-content-center">Nederlandstalige exchanges</h1>
-      <div class="d-flex justify-content-center">
-        <div class="mt-4 col-8">
-        <p>Ja, leuk die welkomstkortingen bij bepaalde exchanges waar je Bitcoin, Litecoin, Ethereum en andere crypto kunt kopen, maar waar ben je nu uiteindelijk het goedkoopste uit? Dat wordt mede bepaald door de <a href="#faq">maker</a>, <a href="#faq">taker</a>, <a href="#faq">withdrawal</a> fees die je moet betalen. Onder het mom van "liever lui dan moe" houd ik dat voor je in de gaten.</p>
-        </div>
-      </div>
-
-      <div class="mt-3 row">
-        <div id="table-overview"></div>
-      </div>
-    </div>
-    <div id="calculator" class="gradient-2">
-      <div class="mt-5 row d-flex justify-content-center">
-        <h1 class="mt-5 d-flex justify-content-center text-white">Bereken aankoopkosten voor crypto</h1>
-        <div class="col-8 justify-content-center text-white">
-          <p>Not your keys, not your coins. Dat betekent dat je gekochte crypto bij voorkeur in een zelfbeheerde digitale
-          portemonnee bewaart. Waarom? Omdat veel exchanges (digitale cryptokantoren) gehackt zijn en de personen die hun
-          cryptomunten bewaarden op de exchange, konden fluiten naar hun digitale munten.</p>
-                <p>Met deze calculator reken je uit waar je het voordeligst Bitcoin, Ethereum en Litecoin kunt kopen. Ik heb
-              rekening gehouden met de aankoopkosten (taker fee) en transactiekosten (withdrawal fee)</p>
-        </div>
-      </div>
-
-      <div class="mt-5 col-4 in-the-middle">
-        <div class="input-group input-group-lg">
-          <input type="text" placeholder="Aantal (bv 1,003)" id="amountOfCrypto" class="form-control" aria-label="Large" />
-          <select name="cryptoCurrencies" id="cryptoCurrency" class="form-control form-control-lg">
-            <option value="btc" selected>Selecteer...</option>
-            <option value="btc">Bitcoin (BTC)</option>
-            <option value="eth">Ethereum (ETH)</option>
-            <option value="ltc">Litecoin (LTC)</option>
-          </select>
-        </div>
-        <div class="mt-3 justify-content-center">
-          <input type="button" onClick="calculateFees()" Value="Bereken" class="form-control form-control-lg btn btn-warning biggie"/>
-        </div>
-      </div>
-
-      <div class="mt-1 mb-1 d-flex justify-content-center">
-        <div class="col-10 mt-5" id="exchange-table-overview"></div>
-      </div>
-    </div>
-
-    <div class="container">
-      <!--<div class="row">
-        <h1 id="data" class="mt-5 d-flex justify-content-center">Data</h1>
-        <div class="mt-5 col-lg col-sm">
-            <div class="card gradient-1">
-                <div class="card-body">
-                    <h3 class="card-title text-white">Geindexeerde exchanges</h3>
-                    <div class="d-inline-block">
-                        <h2 class="text-white">4565</h2>
-                        <p class="text-white mb-0">Jan - March 2019</p>
-                    </div>
-                    <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span>
-                </div>
-            </div>
-        </div>
-        <div class="mt-5 col-lg col-sm">
-            <div class="card gradient-2">
-                <div class="card-body">
-                    <h3 class="card-title text-white">Net Profit</h3>
-                    <div class="d-inline-block">
-                      <h2 class="text-white">$ 8541</h2>
-                      <p class="text-white mb-0">Jan - March 2019</p>
-                  </div>
-                  <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span>
-              </div>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NZ5TP89"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-info fixed-top">
+          <div class="col-10 col-lg-8 col-md-8 container-fluid">
+            <a class="navbar-brand text-white fs-1" href="https://cryptocalculator.nl">🤓</a>
+            <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse fs-6 text-uppercase" id="navbarText">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-center">
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="#calculator">Calculator</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="#samengevat">Samengevat</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="#data">Data</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white" href="#faq">Veelgestelde vragen</a>
+                </li>
+              </ul>
             </div>
           </div>
-        <div class="mt-5 col-lg col-sm">
-          <div class="card gradient-3">
+        </nav>
+
+    <div class="container-fluid gradient-2 mb-3 fill" id="calculator">
+      <div class="valign">
+        <div class="row d-flex justify-content-center">
+          <h1 class="col-lg-8 col-md-10 col-10 mt-5 d-flex justify-content-center text-center text-white">Bereken aankoopkosten voor crypto</h1>
+        </div>
+        <div class="mt-5 col-lg-4 col-md-6 col-12 in-the-middle">
+
+          <div class="input-group input-group-lg mb-3 mt-3">
+            <div class="input-group-prepend input-group-lg col-lg-6 col-md-6 col-6">
+              <span class="input-group-text">Bedrag in € <i class="fa fa-info-circle tooltip-euro text-white"></i>
+            </div>
+            <input type="number" pattern="[0-9]*" inputmode="numeric" value="100" placeholder="100" id="amountOfEuro" class="form-control" aria-label="Large" autofocus/>
+            <div class="input-group-append input-group-lg">
+              <span class="input-group-text">,00</span>
+            </div>
+          </div>
+
+          <div id="scrollie" class="col input-group input-group-lg mt-3">
+            <div class="col input-group-lg">
+              <div class="input-group-text">Ik wil kopen <i class="text-right fa fa-info-circle tooltip-crypto text-white"></i></div>
+            </div>
+            <div class="col input-group-lg">
+              <select name="cryptoCurrencies" id="cryptoCurrency" class="col form-control form-control-lg">
+                <option value="btc">Selecteer...</option>
+                <option value="btc">Bitcoin (BTC)</option>
+                <option value="eth">Ethereum (ETH)</option>
+                <option value="ltc">Litecoin (LTC)</option>
+                <option value="bch">Bitcoin Cash (BCH)</option>
+                <option value="ada">Cardano (ADA)</option>
+                <option value="neo">NEO (NEO)</option>
+              </select>
+            </div>
+          </div>
+          <div class="col input-group input-group-lg mt-3">
+            <div class="col input-group-lg">
+              <div class="input-group-text">Withdrawal? <i class="fa fa-info-circle tooltip-withdrawal text-white"></i></div>
+            </div>
+            <div class="col input-group-lg">
+              <select id="cryptoCurrencyWithdrawal" name="cryptoWithdrawal" class="col form-control form-control-lg">
+                <option value="cryptoWithdraw" selected>Ja</option>
+                <option value="0">Nee</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mt-3 justify-content-center">
+            <input id="clickie" type="button" onClick="calculateFees(); window.location.href = '#scrollie';" Value="Bereken" class="form-control form-control-lg btn btn-warning-2"/>
+          </div>
+        </div>
+
+        <div class="mt-3 mb-1 d-flex justify-content-center">
+          <div class="col-12 col-md-12 col-lg-10 mt-3 mb-5" id="exchange-table-overview">
+          </div>
+        </div>
+      </div>
+    </div>
+
+<div class="container-fluid" id="samengevat">
+  <div class="row d-flex justify-content-center">
+    <h1 class="col-lg-8 col-md-10 col-10 mt-5 d-flex justify-content-center text-center gradient-h1">Samengevat</h1>
+  </div>
+  <div class="d-flex justify-content-center">
+    <div class="row col-md-12 col-lg-10">
+      <div class="mt-3 col-lg col-sm"><a style="color:#fff; text-decoration: none;" target="_blank" rel="sponsored" href="https://bitvavo.com/?a=C7293B8664">
+          <div class="card gradient-1">
               <div class="card-body">
-                  <h3 class="card-title text-white">New Customers</h3>
+                  <h3 class="card-title text-white">Goedkoopst: BTC</h3>
                   <div class="d-inline-block">
-                      <h2 class="text-white">4565</h2>
-                      <p class="text-white mb-0">Jan - March 2019</p>
+                      <h2 class="text-white">Bitvavo</h2>
+                      <p class="text-white mb-0">Op €100 aankoop kost het €5,74</p>
                   </div>
-                  <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                  <!-- <span class="float-right display-5 opacity-5"><i class="fa fa-shopping-cart"></i></span> -->
               </div>
-          </div>
-        </div>
-      </div>-->
-      <div class="justify-content-center row">
-        <h1 id="bitcoinPrice" class="mt-5 d-flex justify-content-center">-----</h1>
-        <h1 id="faq" class="mt-5 d-flex justify-content-center">Veelgestelde vragen</h1>
-        <div class="col-8  mt-5 accordion" id="accordionExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                <strong>Wat betekent 'makers fee'?</strong>
-              </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                Je wordt een “maker” wanneer je een order plaatst die niet onmiddellijk wordt uitgevoerd, maar in het orderboek blijft staan tot deze later door iemand anders is gevuld of gematcht.
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTwo">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                <strong>Wat betekent 'takers fee'?</strong>
-              </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                De “taker” is iemand die een order plaatst die onmiddellijk wordt gematcht met een bestaande order in het orderboek.
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                <strong>Wat betekent 'withdrawal fee'?</strong>
-              </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                Dit zijn de kosten die je moet betalen wanneer je een bepaalde digitale munt van de exchange af wilt halen.
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
-                  <strong>Waar kan ik meer informatie vinden over crypto?</strong>
-                </button>
-              </h2>
-              <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="heading4" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                  <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+          </div></a>
+      </div>
+      <div class="mt-3 col-lg col-sm"><a style="color:#fff; text-decoration: none;" target="_blank" rel="sponsored" href="https://www.binance.com/en/register?ref=YIPXHFGC">
+          <div class="card gradient-2">
+              <div class="card-body">
+                  <h3 class="card-title text-white">Goedkoopst: Ethereum</h3>
+                  <div class="d-inline-block">
+                    <h2 class="text-white">Binance</h2>
+                    <p class="text-white mb-0">Laagste fee</p>
                 </div>
-              </div>
+                <!-- <span class="float-right display-5 opacity-5"><i class="fa fa-money"></i></span> -->
+            </div>
+          </div></a>
+        </div>
+      <div class="mt-3 col-lg col-sm"><a style="color:#fff; text-decoration: none;" target="_blank" rel="sponsored" href="https://www.kucoin.com/ucenter/signup?rcode=E5Whpx">
+        <div class="card gradient-3">
+            <div class="card-body">
+                <h3 class="card-title text-white">Goedkoopst: LTC</h3>
+                <div class="d-inline-block">
+                    <h2 class="text-white">Kucoin</h2>
+                    <p class="text-white mb-0">Al is het centenwerk</p>
+                </div>
+                <!-- <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span> -->
             </div>
         </div>
+      </div></a>
+    </div>
+  </div>
+        <!-- <h1 id="bitcoinPrice" class="mt-5 d-flex justify-content-center">-----</h1> -->
       </div>
     </div>
   </div>
+
+  <div class="container-fluid">
+
+  <div class="gradient-2 mt-5 justify-content-center row">
+    <h1 id="data" class="col-lg-8 col-md-10 col-10 mt-5 d-flex justify-content-center text-center text-white">Data (Nederlandstalige) exchanges</h1>
+    <div class="d-flex justify-content-center">
+      <div class="mt-4 col-lg-8 col-md-10 col-10 text-white">
+      <p>Ja, leuk die welkomstkortingen bij bepaalde exchanges waar je Bitcoin, Litecoin, Ethereum en andere crypto kunt kopen, maar waar ben je nu uiteindelijk het goedkoopste uit? Dat wordt mede bepaald door de <a href="#faq">maker</a>, <a href="#faq">taker</a>, <a href="#faq">withdrawal</a> fees die je moet betalen. Onder het mom van "liever lui dan moe" houd ik dat voor je in de gaten.</p>
+      </div>
+    </div>
+
+  <div class="container-fluid col-lg-10 col-md-12 col-11 mt-3 mb-5">
+      <div id="table-overview"></div>
+  </div>
+</div>
+
+<div class="justify-content-center row">
+  <h1 id="faq" class="mt-5 d-flex justify-content-center gradient-h1">Veelgestelde vragen</h1>
+  <div class="mt-5 col-lg-8 col-md-10 col-11 accordion" id="accordionExample">
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingOne">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <strong>Waarom deze calculator?</strong>
+        </button>
+      </h2>
+      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <p>Not your keys, not your coins. Dat betekent dat je gekochte crypto bij voorkeur in een zelfbeheerde digitale
+          portemonnee bewaart. Waarom? Omdat veel exchanges (digitale cryptokantoren) gehackt zijn en de personen die hun
+          cryptomunten bewaarden op de exchange, konden fluiten naar hun digitale munten.</p>
+          <p>Met deze calculator reken je uit waar je het voordeligst Bitcoin, Ethereum en Litecoin kunt kopen. Ik heb
+              rekening gehouden met de aankoopkosten (taker fee) en transactiekosten (withdrawal fee).</p>
+            </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwoA">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwoA" aria-expanded="false" aria-controls="collapseTwoA">
+          <strong>Wat betekent 'makers fee'?</strong>
+        </button>
+      </h2>
+      <div id="collapseTwoA" class="accordion-collapse collapse" aria-labelledby="headingTwoA" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          Je wordt een “maker” wanneer je een order plaatst die niet onmiddellijk wordt uitgevoerd, maar in het orderboek blijft staan tot deze later door iemand anders is gevuld of gematcht.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingTwo">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          <strong>Wat betekent 'takers fee'?</strong>
+        </button>
+      </h2>
+      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          De “taker” is iemand die een order plaatst die onmiddellijk wordt gematcht met een bestaande order in het orderboek.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          <strong>Wat betekent 'withdrawal fee'?</strong>
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          Dit zijn de kosten die je moet betalen wanneer je een bepaalde digitale munt van de exchange af wilt halen.
+        </div>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+
+  <div class="container mt-5"></div>
     <!-- Footer -->
-    <footer class="gradient-3 text-center text-lg-start mt-5">
+    <footer class="gradient-3 text-center text-lg-start text-white">
       <!-- Grid container -->
-      <div class="container p-4">
+      <div class="container p-4 col-lg-8 col-md-8 col-10">
         <!--Grid row-->
         <div class="row">
           <!--Grid column-->
           <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
             <h5 class="text-uppercase">Over deze website</h5>
-
             <p>
               Ja, leuk die welkomstkortingen bij bepaalde exchanges waar je Bitcoin, Litecoin, Ethereum en
               andere crypto kunt kopen, maar waar ben je nu uiteindelijk het goedkoopste uit? Dat wordt mede
               bepaald door de <a href="#faq">maker</a>, <a href="#faq">taker</a>, <a href="#faq">withdrawal</a>
               fees die je moet betalen. Onder het mom van "liever lui dan moe" houd ik dat voor je in de gaten.
             </p>
+
           </div>
           <!--Grid column-->
 
           <!--Grid column-->
-          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+          <!-- <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
             <h5 class="text-uppercase">Links</h5>
 
             <ul class="list-unstyled mb-0">
@@ -217,25 +279,25 @@
                 <a href="#!" class="text-dark">Link 4</a>
               </li>
             </ul>
-          </div>
+          </div> -->
           <!--Grid column-->
 
           <!--Grid column-->
           <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase mb-0">Links</h5>
+            <h5 class="text-uppercase">Links</h5>
 
-            <ul class="list-unstyled">
+            <ul class="list-unstyled mb-0">
               <li>
-                <a href="#!" class="text-dark">Link 1</a>
+                <a href="https://newkidontheblockchain.nl/2017/03/uitleg-core-wallet-multi-wallet-en-paper-wallet/" class="text-dark">Wat is een wallet?</a>
               </li>
               <li>
-                <a href="#!" class="text-dark">Link 2</a>
+                <a href="#" class="text-dark">Disclaimer</a>
               </li>
               <li>
-                <a href="#!" class="text-dark">Link 3</a>
+                <a href="#" class="text-dark">Privacy</a>
               </li>
               <li>
-                <a href="#!" class="text-dark">Link 4</a>
+                © 2020 <a class="text-dark" href="https://cryptocalculator.nl">CryptoCalculator.nl</a>
               </li>
             </ul>
           </div>
@@ -243,18 +305,26 @@
         </div>
         <!--Grid row-->
       </div>
-      <!-- Grid container -->
-
-      <!-- Copyright -->
-      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-        © 2020 Copyright:
-        <a class="text-dark" href="https:/8nullen.nl">8nullen.nl</a>
-      </div>
-      <!-- Copyright -->
     </footer>
     <!-- Footer -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <script>
+      tippy('.tooltip-euro', {
+        content: 'Het bedrag dat je wilt uitgeven, afgerond in hele euros',  trigger: 'mouseenter click',
+      });
+      tippy('.tooltip-crypto', {
+        content: 'Welke cryptomunt wil je kopen? Dit is nodig voor de berekening: De koers, handels- en transactiekosten verschillen per cryptomunt én exchange.',  trigger: 'mouseenter click',
+      });
+      tippy('.tooltip-withdrawal', {
+        content: 'Wil je je crypto naar een andere wallet - bijvoorbeeld die van jezelf - sturen? Dan betaal je transactiekosten (<i>withdrawal fee</i>). Laat je je crypto bij een exchange staan, betaal je deze kosten niet.',
+        allowHTML: true,
+        trigger: 'mouseenter click',
+      });
+    </script>
   </body>
-  <script src="https://unpkg.com/gridjs/dist/gridjs.development.js"></script>
-  <script src="src/index.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-</html>
+  <script src="https://unpkg.com/gridjs/dist/gridjs.development.js"></script>
+  <!-- <script src="src/test.js"></script> -->
+  <script src="src/index.js"></script>
+  </html>

@@ -2,9 +2,10 @@ let exchangeFees
 new gridjs.Grid
 
 ({
-  columns: ['Exchange', 'Maker %', 'Taker %', 'BTC fee', 'ETH fee', 'LTC fee',  'Link'],
+  columns: ['Exchange', 'Maker', 'Taker %', 'iDeal', '🇳🇱', 'Link'],
   sort: true,
   fixedHeader: true,
+  autoWidth: true,
   server: {
     url: 'src/db.json',
     then: (data) => {
@@ -13,51 +14,88 @@ new gridjs.Grid
         crypto.name,
         crypto.maker,
         crypto.taker,
-        crypto.btc,
-        crypto.eth,
-        crypto.ltc,
+        crypto.ideal,
+        crypto.langNL,
         gridjs.html(`<a class="btn btn-outline-primary" href='${crypto.affiliate}'>maak account</a>`)
       ])
     }
   }
 }).render(document.getElementById("table-overview"));
 
-
 function calculateFeesByExchange(exchangeFee) {
-  const amountOfCrypto = Number(document.getElementById("amountOfCrypto").value)
+  const amountOfEuro = Number(document.getElementById("amountOfEuro").value)
   const selectedCrypto = document.getElementById("cryptoCurrency").value
-  fee = Number(amountOfCrypto * (exchangeFee.taker / 100) + exchangeFee[selectedCrypto])
+  if (document.getElementById("cryptoCurrencyWithdrawal").value == "cryptoWithdraw") {
+     fee = Number((amountOfEuro / currencyPrice) * (exchangeFee.taker / 100) + exchangeFee[selectedCrypto]);
+   } else {
+     fee = Number((amountOfEuro / currencyPrice) * (exchangeFee.taker / 100));
+   }
   return {
     fee,
-    remainingAmount: amountOfCrypto - fee
+    remainingAmount: amountOfEuro - fee
   }
 }
+
 
 async function calculateFees() {
   const selectedCrypto = document.getElementById("cryptoCurrency").value
   const currencyPrice = await getCryptoPriceInCurrency(selectedCrypto)
-
+  const formatConfig = {
+    style: "currency",
+    currency: "EUR", // CNY for Chinese Yen, EUR for Euro
+    minimumFractionDigits: 2,
+    currencyDisplay: "symbol",
+  };
+  const dutchNumberFormatter = new Intl.NumberFormat("nl-NL", formatConfig);
   const fees = exchangeFees.map(exchangeFee => {
     const feesByExchange = calculateFeesByExchange(exchangeFee);
     return [
       exchangeFee.name,
-      feesByExchange.fee.toFixed(4),
-      (exchangeFee.btc * currencyPrice).toFixed(4),
-      feesByExchange.remainingAmount,
-      gridjs.html(`<a class="btn btn-secondary" href='${exchangeFee.affiliate}' target="_blank" rel="sponsored">Koop via ${exchangeFee.name}</a>`)]
+      Number((fee * currencyPrice).toFixed(2)), // kosten in euro's
+      Number(((feesByExchange.remainingAmount - (fee * currencyPrice)) / currencyPrice).toFixed(8)),
+      Number((feesByExchange.remainingAmount) - (fee * currencyPrice).toFixed(2)), // waarde in euro's
+      exchangeFee.langNL,
+      gridjs.html(`<a class="btn btn-success" href='${exchangeFee.affiliate}' target="_blank" rel="sponsored">Koop via ${exchangeFee.name}</a>`)]
   })
 
-  document.getElementById("exchange-table-overview").innerHTML = "";
+document.getElementById("exchange-table-overview").innerHTML = "";
+const henkie = document.getElementById("cryptoCurrency").value
 
-  const exchangeFeesGrid = new gridjs.Grid({
-    columns: ['Exchange', 'Kosten', 'Kosten in euro', 'Netto ontvang je', 'Koop'],
-    sort: true,
-    data: fees
-  });
-
-  exchangeFeesGrid.render(document.getElementById("exchange-table-overview"));
+const exchangeFeesGrid = new gridjs.Grid({
+columns: [
+  {
+    name: 'Exchange'
+  },
+  {
+    name: 'Het kost je',
+    formatter: (cell) => `${dutchNumberFormatter.format(cell)}`
+  },
+  {
+    name: 'Je ontvangt',
+    formatter: (cell) => gridjs.html(`${cell} ${henkie.toUpperCase()}`)
+  },
+  {
+    name: 'Waarde in €',
+    formatter: (cell) => `${dutchNumberFormatter.format(cell)}`
+  },
+  '🇳🇱',
+  'Koop'],
+className: {
+  td: 'calculator-sanka'
+},
+style: {
+  table: {border: '1px solid #ccc'},
+  th: {
+      'color': '#000',
+      'border-bottom': '0px',
+      'text-align': 'center'}
+},
+sort: true,
+data: fees
+});
+exchangeFeesGrid.render(document.getElementById("exchange-table-overview"));
+exchangeFeesGrid.forceRender(document.getElementById("exchange-table-overview"));
 }
-
 
 function getCryptoPriceInCurrency(cryptoCurrency) {
   const url = `https://api.bitvavo.com/v2/ticker/price?market=${cryptoCurrency.toUpperCase()}-EUR`;
